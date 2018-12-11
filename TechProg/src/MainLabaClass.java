@@ -28,7 +28,7 @@ public class MainLabaClass {
         return DopColor;
     }
 
-    //
+
     public MainLabaClass(int maxSpeed, float weight, Color mainColor, Color dopColor)
     {
 
@@ -37,7 +37,7 @@ public class MainLabaClass {
         MainColor = mainColor;
         DopColor = dopColor;
     }
-    //
+
     public void SetPosition(int x, int y, int width, int height)
     {
         _startPosX = x;
@@ -45,7 +45,7 @@ public class MainLabaClass {
         _pictureWidth = width;
         _pictureHeight = height;
     }
-    //
+ 
     public void MoveTransport(Direction direction)
     {
         float step = MaxSpeed * 100 / Weight;
@@ -87,10 +87,10 @@ public class MainLabaClass {
     }
     public void DrawBoat(Graphics g)
     {
-        //
+   
         g.setColor(MainColor);
         g.fillRect(_startPosX+40, _startPosY+40, planeWidth-30, planeHeight-60);
-//        g.fillRect(_startPosX+30, _startPosY+20, planeWidth-120, planeHeight-40);
+
         g.setColor(Color.BLACK);
 
         g.drawLine(_startPosX + 160, _startPosY + 40, _startPosX + 100, _startPosY + 20);
