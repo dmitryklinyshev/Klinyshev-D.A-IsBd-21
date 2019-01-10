@@ -8,20 +8,12 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="af41e" class="javax.swing.JButton" binding="buttonParkBasicShip">
-        <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Припарковать лодку"/>
-        </properties>
-      </component>
       <component id="5cddc" class="javax.swing.JButton" binding="buttonParkShip">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Припарковать катер"/>
+          <text value="Добавить транспорт"/>
         </properties>
       </component>
       <component id="94300" class="javax.swing.JLabel" binding="removeTransportLabel">

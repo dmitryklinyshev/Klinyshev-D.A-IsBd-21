@@ -8,4 +8,6 @@ public interface Transport {
     void moveTransport(Direction direction);
 
     void drawTransport(Graphics2D g);
+
+    void setMainColor(String colorName);
 }

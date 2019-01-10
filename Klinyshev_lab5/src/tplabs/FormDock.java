@@ -10,8 +10,6 @@ import java.awt.event.ActionListener;
 public class FormDock {
     private JPanel mainPanel;
 
-    private JButton buttonParkBasicShip;
-
     private JButton buttonParkShip;
 
     private JLabel removeTransportLabel;
@@ -32,11 +30,15 @@ public class FormDock {
 
     MultiLevelDock dock;
 
+    JFrame frame;
+
+    Transport ship;
+
     private final int countLevel = 5;
 
 
     public FormDock() {
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         frame.setContentPane(mainPanel);
         frame.setSize(1024, 480);
         frame.setResizable(false);
@@ -50,35 +52,14 @@ public class FormDock {
         listLevels.setSelectedIndex(0);
         drawPanel.setListLevels(listLevels);
 
-        buttonParkBasicShip.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (listLevels.getSelectedIndex() > -1) {
-
-                    Color mainColor = JColorChooser.showDialog(null, "Choose a color",
-                            Color.RED);
-                    var ship = new BasicShip(100, 1000, mainColor);
-                    int place = dock.getDock(listLevels.getSelectedIndex()).addTransport(ship);
-                    if (place != -1) {
-                        drawPanel.repaint();
-                    }
-                }
-            }
-        });
-
         buttonParkShip.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (listLevels.getSelectedIndex() > -1) {
-
-                    Color mainColor = JColorChooser.showDialog(null, "Choose a color",
-                            Color.RED);
-                    Color secondaryColor = JColorChooser.showDialog(null, "Choose a color",
-                            Color.RED);
-                    var ship = new MotorBoat(100, 1000, mainColor, secondaryColor,
-                            true, true, true, 10);
-                    int place = dock.getDock(listLevels.getSelectedIndex()).addTransport(ship);
-                    if (place != -1) {
+                    DialogConfig dConfig = new DialogConfig(frame);
+                    if (dConfig.isSuccessful()) {
+                        ship = dConfig.getShip();
+                        int i = dock.getDock(listLevels.getSelectedIndex()).addTransport(ship);
                         drawPanel.repaint();
                     }
                 }
@@ -116,4 +97,5 @@ public class FormDock {
         drawPanel = new DockBoard();
         drawPanel.repaint(0);
     }
+
 }
