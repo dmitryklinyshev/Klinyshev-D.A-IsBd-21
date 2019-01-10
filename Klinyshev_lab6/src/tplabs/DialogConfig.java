@@ -157,7 +157,7 @@ public class DialogConfig extends JDialog {
 
         JPanel panelGrey = new JPanel();
         panelGrey.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        panelGrey.setName("grey");
+        panelGrey.setName("gray");
         panelGrey.setBackground(Color.GRAY);
         panelGrey.setBounds(306, 83, 31, 39);
         this.getContentPane().add(panelGrey);

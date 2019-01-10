@@ -3,9 +3,12 @@ package tplabs;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileFilter;
 
 public class FormDock {
     private JPanel mainPanel;
@@ -27,6 +30,8 @@ public class FormDock {
     private DefaultListModel model;
 
     private JLabel levelsLabel;
+
+    private JMenuBar menuBar;
 
     MultiLevelDock dock;
 
@@ -91,6 +96,57 @@ public class FormDock {
                 drawPanel.repaint();
             }
         });
+
+        Font font = new Font("Verdana", Font.PLAIN, 11);
+        menuBar = new JMenuBar();
+        menuBar.setFont(font);
+
+        JMenu newMenu = new JMenu("Файл");
+        newMenu.setFont(font);
+        menuBar.add(newMenu);
+
+        JMenuItem saveFileItem = new JMenuItem("Сохранить");
+        saveFileItem.setFont(font);
+        newMenu.add(saveFileItem);
+
+        JMenuItem loadFileItem = new JMenuItem("Загрузить");
+        loadFileItem.setFont(font);
+        newMenu.add(loadFileItem);
+
+        saveFileItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChoser = new JFileChooser();
+                fileChoser.setFileFilter(new FileNameExtensionFilter("Text Files", "txt"));
+                int ret = fileChoser.showDialog(null, "Сохранить файл");
+                if (ret == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChoser.getSelectedFile();
+                    if (dock.saveData(file.getAbsolutePath())) {
+                        JOptionPane.showMessageDialog(frame, "Сохранение прошло успешно");
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Произошла ошибка");
+                    }
+                }
+            }
+        });
+
+        loadFileItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChoser = new JFileChooser();
+                fileChoser.setFileFilter(new FileNameExtensionFilter("Text Files", "txt"));
+                int ret = fileChoser.showDialog(null, "Открыть файл");
+                if (ret == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChoser.getSelectedFile();
+                    if (dock.loadData(file.getAbsolutePath())) {
+                        JOptionPane.showMessageDialog(frame, "Загрузка прошло успешно");
+                        drawPanel.repaint();
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Произошла ошибка");
+                    }
+                }
+            }
+        });
+
+        frame.setJMenuBar(menuBar);
     }
 
     private void createUIComponents() {

@@ -1,6 +1,7 @@
 package tplabs;
 
 import java.awt.*;
+import java.io.*;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -62,7 +63,7 @@ public class Dock<T extends Transport> {
     private void drawMarking(Graphics2D g) {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, pictureWidth, pictureHeight);
-        g.setColor(new Color(13, 150, 254));
+        g.setColor(new Color(15, 165, 254));
         g.setStroke(new BasicStroke(5));
         //границы праковки
         g.drawRect(0, 0, (maxCount / 5) * placeSizeWidth, 480);
@@ -73,6 +74,21 @@ public class Dock<T extends Transport> {
             }
             g.drawLine(5 + i * placeSizeWidth + 115, 5, 5 + i * placeSizeWidth + 115, 405);
             g.drawLine(5 + i * placeSizeWidth, 5, 5 + i * placeSizeWidth, 405);
+        }
+    }
+
+    public T getTrasport(int ind) {
+        if (places.containsKey(ind)) {
+            return places.get(ind);
+        }
+        return null;
+    }
+
+    public void setTrasport(int ind, T t) {
+        if (checkFreePlace(ind)) {
+            places.put(ind, t);
+            places.get(ind).setPosition(10 + ind / 5 * placeSizeWidth + 5,
+                    ind % 5 * placeSizeHeight + 15, pictureWidth, pictureHeight);
         }
     }
 }

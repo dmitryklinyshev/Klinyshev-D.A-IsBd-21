@@ -17,7 +17,7 @@ public class BasicShip extends WaterTransport {
 
     protected int maxSpeed;
 
-    protected float weight;
+    protected int weight;
 
     protected boolean initlized = false;
 
@@ -33,7 +33,7 @@ public class BasicShip extends WaterTransport {
         return weight;
     }
 
-    protected void setWeight(float weight) {
+    protected void setWeight(int weight) {
         this.weight = weight;
     }
 
@@ -53,6 +53,20 @@ public class BasicShip extends WaterTransport {
         setWeight(weight);
         this.mainColor = mainColor;
         initlized = true;
+    }
+
+    public BasicShip(String info) {
+        String[] parameters = info.split(";");
+        if (parameters.length == 3) {
+            maxSpeed = Integer.parseInt(parameters[0]);
+            weight = Integer.parseInt(parameters[1]);
+            setMainColor(parameters[2]);
+            initlized = true;
+        }
+    }
+
+    public String toString() {
+        return maxSpeed + ";" + weight + ";" + colorToString(mainColor);
     }
 
     @Override
