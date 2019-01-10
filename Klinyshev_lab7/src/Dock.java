@@ -1,7 +1,4 @@
-package tplabs;
-
 import java.awt.*;
-import java.io.*;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -25,9 +22,9 @@ public class Dock<T extends Transport> {
         this.pictureHeight = pictureHeight;
     }
 
-    public int addTransport(T ship) {
+    public int addTransport(T ship) throws DockOverflowException {
         if (places.size() == maxCount) {
-            return -1;
+            throw new DockOverflowException();
         }
         for (int i = 0; i < maxCount; i++) {
             if (checkFreePlace(i)) {
@@ -40,13 +37,13 @@ public class Dock<T extends Transport> {
         return -1;
     }
 
-    public T removeTransport(int index) {
+    public T removeTransport(int index) throws DockNotFoundException {
         if (!checkFreePlace(index)) {
             T ship = places.get(index);
             places.remove(index);
             return ship;
         }
-        return null;
+        throw new DockNotFoundException(index);
     }
 
     private boolean checkFreePlace(int index) {
@@ -61,9 +58,9 @@ public class Dock<T extends Transport> {
     }
 
     private void drawMarking(Graphics2D g) {
-        g.setColor(Color.WHITE);
+        g.setColor(Color.white);
         g.fillRect(0, 0, pictureWidth, pictureHeight);
-        g.setColor(new Color(15, 165, 254));
+        g.setColor(new Color(133, 56, 210));
         g.setStroke(new BasicStroke(5));
         //границы праковки
         g.drawRect(0, 0, (maxCount / 5) * placeSizeWidth, 480);
@@ -77,18 +74,19 @@ public class Dock<T extends Transport> {
         }
     }
 
-    public T getTrasport(int ind) {
+    public T getTrasport(int ind) throws DockNotFoundException {
         if (places.containsKey(ind)) {
             return places.get(ind);
         }
-        return null;
+        throw new DockNotFoundException(ind);
     }
 
-    public void setTrasport(int ind, T t) {
+    public void setTrasport(int ind, T t) throws DockOccupiedPlaceException {
         if (checkFreePlace(ind)) {
             places.put(ind, t);
             places.get(ind).setPosition(10 + ind / 5 * placeSizeWidth + 5,
                     ind % 5 * placeSizeHeight + 15, pictureWidth, pictureHeight);
         }
+        throw new DockOccupiedPlaceException(ind);
     }
 }

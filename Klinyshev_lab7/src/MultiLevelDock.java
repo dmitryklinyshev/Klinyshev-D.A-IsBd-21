@@ -1,5 +1,3 @@
-package tplabs;
-
 import java.io.*;
 import java.util.ArrayList;
 
@@ -26,11 +24,12 @@ public class MultiLevelDock {
         return null;
     }
 
-    public boolean saveData(String filename) {
+    public void saveData(String filename) throws Exception {
         File file = new File(filename);
         if (file.exists()) {
             file.delete();
         }
+
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             writeToFile("CountLeveles:" + dockStages.size() + System.lineSeparator(), bw);
             for (var level : dockStages) {
@@ -48,61 +47,60 @@ public class MultiLevelDock {
                     }
                 }
             }
-            return true;
         } catch (Exception ex) {
-            System.out.println(ex);
-            return false;
+            throw ex;
         }
     }
 
-    public boolean loadData(String filename) {
+    public void loadData(String filename) throws Exception {
         File file = new File(filename);
         if (!file.exists()) {
-            return false;
+            throw new FileNotFoundException();
         }
+
         String bufferTextFromFile = "";
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
                 bufferTextFromFile += line + "\n";
             }
-            var strs = bufferTextFromFile.split("\n");
-            if (strs[0].contains("CountLeveles")) {
-                //считываем количество уровней
-                int count = Integer.parseInt(strs[0].split(":")[1]);
-                if (dockStages != null) {
-                    dockStages.clear();
-                }
-                dockStages = new ArrayList<Dock<Transport>>(count);
-            } else {
-                //если нет такой записи, то это не те данные
-                return false;
-            }
-            int counter = -1;
-            Transport ship = null;
-            for (int i = 1; i < strs.length - 1; ++i) {
-                //идем по считанным записям
-                if (strs[i].equals("Level")) {
-                    //начинаем новый уровень
-                    counter++;
-                    dockStages.add(new Dock<Transport>(countPlaces, pictureWidth, pictureHeight));
-                    continue;
-                }
-                if (strs[i].isEmpty() || strs[i] == null) {
-                    continue;
-                }
-                if (strs[i].split(":")[1].equals("BasicShip")) {
-                    ship = new BasicShip(strs[i].split(":")[2]);
-                } else if (strs[i].split(":")[1].equals("Ship")) {
-                    ship = new Ship(strs[i].split(":")[2]);
-                }
-                dockStages.get(counter).setTrasport(Integer.parseInt(strs[i].split(":")[0]), ship);
-            }
-            return true;
         } catch (Exception e) {
-            System.out.println(e);
+            throw e;
         }
-        return false;
+
+        var strs = bufferTextFromFile.split("\n");
+        if (strs[0].contains("CountLeveles")) {
+            //считываем количество уровней
+            int count = Integer.parseInt(strs[0].split(":")[1]);
+            if (dockStages != null) {
+                dockStages.clear();
+            }
+            dockStages = new ArrayList<Dock<Transport>>(count);
+        } else {
+            //если нет такой записи, то это не те данные
+            throw new Exception("Неверный формат файла");
+        }
+
+        int counter = -1;
+        Transport ship = null;
+        for (int i = 1; i < strs.length - 1; ++i) {
+            //идем по считанным записям
+            if (strs[i].equals("Level")) {
+                //начинаем новый уровень
+                counter++;
+                dockStages.add(new Dock<Transport>(countPlaces, pictureWidth, pictureHeight));
+                continue;
+            }
+            if (strs[i].isEmpty() || strs[i] == null) {
+                continue;
+            }
+            if (strs[i].split(":")[1].equals("BasicShip")) {
+                ship = new BasicShip(strs[i].split(":")[2]);
+            } else if (strs[i].split(":")[1].equals("Ship")) {
+                ship = new Ship(strs[i].split(":")[2]);
+            }
+            dockStages.get(counter).setTrasport(Integer.parseInt(strs[i].split(":")[0]), ship);
+        }
     }
 
     private void writeToFile(String text, BufferedWriter writer) {

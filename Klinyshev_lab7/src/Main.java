@@ -1,5 +1,3 @@
-package tplabs;
-
 import java.awt.*;
 
 public class Main {

@@ -1,5 +1,3 @@
-package tplabs;
-
 public enum Direction {
     Up,
     Down,

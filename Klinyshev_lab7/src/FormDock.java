@@ -1,5 +1,3 @@
-package tplabs;
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -8,7 +6,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileFilter;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class FormDock {
     private JPanel mainPanel;
@@ -41,8 +42,26 @@ public class FormDock {
 
     private final int countLevel = 5;
 
+    private Logger logger;
+
+    FileHandler fh;
+
 
     public FormDock() {
+        logger = Logger.getLogger(FormDock.class.getName());
+        try {
+
+            // This block configure the logger with handler and formatter
+            fh = new FileHandler("D:/logs/log.txt");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         frame = new JFrame();
         frame.setContentPane(mainPanel);
         frame.setSize(1024, 480);
@@ -64,8 +83,18 @@ public class FormDock {
                     DialogConfig dConfig = new DialogConfig(frame);
                     if (dConfig.isSuccessful()) {
                         ship = dConfig.getShip();
-                        int i = dock.getDock(listLevels.getSelectedIndex()).addTransport(ship);
-                        drawPanel.repaint();
+                        if (ship != null) {
+                            try {
+                                int i = dock.getDock(listLevels.getSelectedIndex()).addTransport(ship);
+                                logger.info("Добавлена лодка " + ship.toString() + " на место " +
+                                        i);
+                                drawPanel.repaint();
+                            } catch (DockOverflowException ex) {
+                                JOptionPane.showMessageDialog(frame, ex.getMessage(), "Переполнение", JOptionPane.ERROR_MESSAGE);
+                            } catch (Exception ex) {
+                                JOptionPane.showMessageDialog(frame, ex.getMessage(), "Неизвестная ошибка", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
                     }
                 }
             }
@@ -76,20 +105,29 @@ public class FormDock {
             public void actionPerformed(ActionEvent e) {
                 if (listLevels.getSelectedIndex() > -1) {
                     if (!removeTransportTextField.getText().equals("")) {
-                        var ship = dock.getDock(listLevels.getSelectedIndex()).removeTransport(Integer.parseInt(removeTransportTextField.getText()));
-                        if (ship != null) {
-                            ship.setPosition(5, 5, shipDrawPanel.getWidth(), shipDrawPanel.getHeight());
-                            shipDrawPanel.setShip(ship);
-                            shipDrawPanel.repaint();
-                        } else {
-                            shipDrawPanel.setShip(null);
-                            shipDrawPanel.repaint();
+                        try {
+                            var ship = dock.getDock(listLevels.getSelectedIndex()).removeTransport(Integer.parseInt(removeTransportTextField.getText()));
+                            if (ship != null) {
+                                ship.setPosition(5, 5, shipDrawPanel.getWidth(), shipDrawPanel.getHeight());
+                                shipDrawPanel.setShip(ship);
+                                shipDrawPanel.repaint();
+                            } else {
+                                shipDrawPanel.setShip(null);
+                                shipDrawPanel.repaint();
+                            }
+                            logger.info("Изъята лодка " + ship.toString() + " с места " +
+                                    removeTransportTextField.getText());
+                            drawPanel.repaint();
+                        } catch (DockNotFoundException ex) {
+                            JOptionPane.showMessageDialog(frame, ex.getMessage(), "Не найдено", JOptionPane.ERROR_MESSAGE);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(frame, ex.getMessage(), "Неизвестная ошибка", JOptionPane.ERROR_MESSAGE);
                         }
-                        drawPanel.repaint();
                     }
                 }
             }
         });
+
         listLevels.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -120,10 +158,13 @@ public class FormDock {
                 int ret = fileChoser.showDialog(null, "Сохранить файл");
                 if (ret == JFileChooser.APPROVE_OPTION) {
                     File file = fileChoser.getSelectedFile();
-                    if (dock.saveData(file.getAbsolutePath())) {
+                    try {
+                        dock.saveData(file.getAbsolutePath());
                         JOptionPane.showMessageDialog(frame, "Сохранение прошло успешно");
-                    } else {
-                        JOptionPane.showMessageDialog(frame, "Произошла ошибка");
+                        logger.info("Сохранено в файл " + file.getName());
+
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(frame, ex.getMessage(), "Неизвсетная ошибка при сохранении", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -136,11 +177,15 @@ public class FormDock {
                 int ret = fileChoser.showDialog(null, "Открыть файл");
                 if (ret == JFileChooser.APPROVE_OPTION) {
                     File file = fileChoser.getSelectedFile();
-                    if (dock.loadData(file.getAbsolutePath())) {
+                    try {
+                        dock.loadData(file.getAbsolutePath());
                         JOptionPane.showMessageDialog(frame, "Загрузка прошло успешно");
+                        logger.info("Загружено из файла " + file.getName());
                         drawPanel.repaint();
-                    } else {
-                        JOptionPane.showMessageDialog(frame, "Произошла ошибка");
+                    } catch (DockOccupiedPlaceException ex) {
+                        JOptionPane.showMessageDialog(frame, ex.getMessage(), "Занятое место", JOptionPane.ERROR_MESSAGE);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(frame, ex.getMessage(), "Неизвсетная ошибка при загрузке", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
