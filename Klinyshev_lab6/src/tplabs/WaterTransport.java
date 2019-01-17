@@ -60,13 +60,35 @@ public abstract class WaterTransport implements Transport {
             case "orange":
                 mainColor = Color.ORANGE;
                 break;
-            case "grey":
+            case "gray":
                 mainColor = Color.GRAY;
                 break;
             case "white":
                 mainColor = Color.WHITE;
                 break;
         }
+    }
+
+    @Override
+    public String colorToString(Color color) {
+        if (color.equals(Color.WHITE)) {
+            return "white";
+        } else if (color.equals(Color.BLACK)) {
+            return "black";
+        } else if (color.equals(Color.RED)) {
+            return "red";
+        } else if (color.equals(Color.YELLOW)) {
+            return "yellow";
+        } else if (color.equals(Color.ORANGE)) {
+            return "orange";
+        } else if (color.equals(Color.BLUE)) {
+            return "blue";
+        } else if (color.equals(Color.GRAY)) {
+            return "gray";
+        } else if (color.equals(Color.GREEN)) {
+            return "green";
+        }
+        return "white";
     }
 
     protected void setMainColor(Color mainColor) {

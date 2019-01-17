@@ -61,7 +61,7 @@ public class Ship extends BasicShip {
             case "orange":
                 secondaryColor = Color.ORANGE;
                 break;
-            case "grey":
+            case "gray":
                 secondaryColor = Color.GRAY;
                 break;
             case "white":
@@ -79,6 +79,27 @@ public class Ship extends BasicShip {
         setLifebuoy(lifebuoy);
         setFlag(flag);
         setEnginePower(enginePower);
+    }
+
+    public Ship(String info) {
+        super(info);
+        String[] parameters = info.split(";");
+        if (parameters.length == 8) {
+            maxSpeed = Integer.parseInt(parameters[0]);
+            weight = Integer.parseInt(parameters[1]);
+            setMainColor(parameters[2]);
+            setSecondaryColor(parameters[3]);
+            strip = Boolean.parseBoolean(parameters[4]);
+            lifebuoy = Boolean.parseBoolean(parameters[5]);
+            flag = Boolean.parseBoolean(parameters[6]);
+            enginePower = Integer.parseInt(parameters[7]);
+            initlized = true;
+        }
+    }
+
+    public String toString() {
+        return (super.toString() + ";" + colorToString(secondaryColor) + ";" + strip + ";"
+                + lifebuoy + ";" + flag + ";" + enginePower);
     }
 
     @Override

@@ -10,4 +10,6 @@ public interface Transport {
     void drawTransport(Graphics2D g);
 
     void setMainColor(String colorName);
+
+    String colorToString(Color color);
 }
