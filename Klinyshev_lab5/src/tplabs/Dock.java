@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class Harbour<T extends Transport> {
+public class Dock<T extends Transport> {
     private SortedMap<Integer, T> places;
 
     private int maxCount;
@@ -17,7 +17,7 @@ public class Harbour<T extends Transport> {
 
     private int placeSizeHeight = 80;
 
-    public Harbour(int sizes, int pictureWidth, int pictureHeight) {
+    public Dock(int sizes, int pictureWidth, int pictureHeight) {
         maxCount = sizes;
         places = new TreeMap<Integer, T>();
         this.pictureWidth = pictureWidth;
@@ -62,7 +62,7 @@ public class Harbour<T extends Transport> {
     private void drawMarking(Graphics2D g) {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, pictureWidth, pictureHeight);
-        g.setColor(new Color(255, 165, 0));
+        g.setColor(new Color(13, 150, 254));
         g.setStroke(new BasicStroke(5));
         //границы праковки
         g.drawRect(0, 0, (maxCount / 5) * placeSizeWidth, 480);

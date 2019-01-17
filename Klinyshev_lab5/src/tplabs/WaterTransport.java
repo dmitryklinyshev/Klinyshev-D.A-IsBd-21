@@ -39,6 +39,36 @@ public abstract class WaterTransport implements Transport {
         return mainColor;
     }
 
+    @Override
+    public void setMainColor(String colorName) {
+        switch (colorName) {
+            case "yellow":
+                mainColor = Color.YELLOW;
+                break;
+            case "blue":
+                mainColor = Color.BLUE;
+                break;
+            case "red":
+                mainColor = Color.RED;
+                break;
+            case "green":
+                mainColor = Color.GREEN;
+                break;
+            case "black":
+                mainColor = Color.BLACK;
+                break;
+            case "orange":
+                mainColor = Color.ORANGE;
+                break;
+            case "grey":
+                mainColor = Color.GRAY;
+                break;
+            case "white":
+                mainColor = Color.WHITE;
+                break;
+        }
+    }
+
     protected void setMainColor(Color mainColor) {
         this.mainColor = mainColor;
     }

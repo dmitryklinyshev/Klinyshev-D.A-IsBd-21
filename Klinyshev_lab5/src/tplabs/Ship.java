@@ -2,12 +2,8 @@ package tplabs;
 
 import java.awt.*;
 
-public class MotorBoat extends BasicShip {
+public class Ship extends BasicShip {
     private Color secondaryColor;
-
-    private void setSecondaryColor(Color secondaryColor) {
-        this.secondaryColor = secondaryColor;
-    }
 
     public boolean getStrip() {
         return strip;
@@ -45,10 +41,40 @@ public class MotorBoat extends BasicShip {
         this.enginePower = enginePower;
     }
 
-    public MotorBoat(int maxSpeed, float weight, Color mainColor, Color secondaryColor,
-                     boolean strip, boolean lifebuoy, boolean flag, int enginePower) {
+    public void setSecondaryColor(String colorName) {
+        switch (colorName) {
+            case "yellow":
+                secondaryColor = Color.YELLOW;
+                break;
+            case "blue":
+                secondaryColor = Color.BLUE;
+                break;
+            case "red":
+                secondaryColor = Color.RED;
+                break;
+            case "green":
+                secondaryColor = Color.GREEN;
+                break;
+            case "black":
+                secondaryColor = Color.BLACK;
+                break;
+            case "orange":
+                secondaryColor = Color.ORANGE;
+                break;
+            case "grey":
+                secondaryColor = Color.GRAY;
+                break;
+            case "white":
+                secondaryColor = Color.WHITE;
+                break;
+        }
+
+    }
+
+    public Ship(int maxSpeed, float weight, Color mainColor, Color secondaryColor,
+                boolean strip, boolean lifebuoy, boolean flag, int enginePower) {
         super(maxSpeed, weight, mainColor);
-        setSecondaryColor(secondaryColor);
+        this.secondaryColor = secondaryColor;
         setStrip(strip);
         setLifebuoy(lifebuoy);
         setFlag(flag);
