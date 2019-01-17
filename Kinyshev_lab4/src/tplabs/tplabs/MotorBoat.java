@@ -59,7 +59,7 @@ public class MotorBoat extends BasicShip {
     public void drawTransport(Graphics2D g) {
         super.drawTransport(g);
         if (flag) {
-            g.setColor(new Color(39, 245, 19));
+            g.setColor(new Color(139, 69, 19));
             g.fillRect((int) startPosX + 10, (int) startPosY, 2, 10);
             g.setColor(Color.RED);
 
@@ -82,10 +82,10 @@ public class MotorBoat extends BasicShip {
         if (lifebuoy) {
             g.setColor(new Color(255, 165, 0));
             g.setStroke(new BasicStroke(4));
-            g.drawOval((int) startPosX + 20, (int) startPosY + 22, 12, 12);
+            g.drawOval((int) startPosX + 20, (int) startPosY + 22, 10, 10);
         }
         if (enginePower > 0) {
-            g.setColor(new Color(69, 159, 169));
+            g.setColor(new Color(169, 169, 169));
             g.fillRect((int) startPosX - 2, (int) startPosY + 25, 15, 11);
             var enginePointsX1 = new int[3];
             var enginePointsY1 = new int[3];
