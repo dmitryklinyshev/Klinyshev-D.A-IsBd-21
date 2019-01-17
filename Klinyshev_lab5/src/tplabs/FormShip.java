@@ -28,7 +28,7 @@ public class FormShip {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Random rnd = new Random();
-                ship = new MotorBoat(rnd.nextInt(200) + 100, 1000, Color.ORANGE,
+                ship = new Ship(rnd.nextInt(200) + 100, 1000, Color.ORANGE,
                         Color.RED, true, true, true, 10);
                 ship.setPosition(rnd.nextInt(60) + 40, rnd.nextInt(60) + 40, drawPanel.getWidth(),
                         drawPanel.getHeight());
@@ -84,4 +84,5 @@ public class FormShip {
     private void createUIComponents() {
         drawPanel = new Board();
     }
+
 }

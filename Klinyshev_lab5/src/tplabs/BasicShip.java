@@ -19,8 +19,6 @@ public class BasicShip extends WaterTransport {
 
     protected float weight;
 
-    protected Color mainColor;
-
     protected boolean initlized = false;
 
     protected int getMaxSpeed() {
@@ -43,10 +41,6 @@ public class BasicShip extends WaterTransport {
         return mainColor;
     }
 
-    protected void setMainColor(Color mainColor) {
-        this.mainColor = mainColor;
-    }
-
     public void setPosition(int x, int y, int width, int height) {
         startPosX = x;
         startPosY = y;
@@ -57,7 +51,7 @@ public class BasicShip extends WaterTransport {
     public BasicShip(int maxSpeed, float weight, Color mainColor) {
         setMaxSpeed(maxSpeed);
         setWeight(weight);
-        setMainColor(mainColor);
+        this.mainColor = mainColor;
         initlized = true;
     }
 
