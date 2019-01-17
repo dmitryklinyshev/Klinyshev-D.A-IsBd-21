@@ -3,9 +3,9 @@ package tplabs;
 import java.awt.*;
 
 public class BasicShip extends WaterTransport {
-    protected final int shipWidth = 120;
+    protected final int shipWidth = 100;
 
-    protected final int shipHeight = 50;
+    protected final int shipHeight = 40;
 
     protected float startPosX;
 
@@ -99,7 +99,7 @@ public class BasicShip extends WaterTransport {
         var y = new int[4];
         x[0] = (int) startPosX;
         y[0] = (int) startPosY + 10;
-        x[1] = (int) startPosX + 140;
+        x[1] = (int) startPosX + 100;
         y[1] = (int) startPosY + 10;
         x[2] = (int) startPosX + 80;
         y[2] = (int) startPosY + 35;
