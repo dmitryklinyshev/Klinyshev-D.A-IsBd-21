@@ -1,15 +1,14 @@
 
 import java.awt.*;
-public class MainLabaClass {
+ public class Boat extends Ship {
     //
-    private int _startPosX ;
-    private int _startPosY;
+    protected int _startPosX ;
+    protected int _startPosY;
     //
-    private int _pictureWidth;
-    private int _pictureHeight;
+
     //
-    private final int planeWidth = 150;
-    private final int planeHeight = 100;
+    protected final int boatWidth = 175;
+    protected final int boatHeight = 100;
     //
     private int MaxSpeed;
     private float Weight;
@@ -28,25 +27,20 @@ public class MainLabaClass {
         return DopColor;
     }
 
-
-    public MainLabaClass(int maxSpeed, float weight, Color mainColor, Color dopColor)
+    //
+    public Boat(int maxSpeed, float weight, Color mainColor, Color dopColor)
     {
 
-        MaxSpeed = 1000; //maxSpeed;
+        MaxSpeed = maxSpeed; //maxSpeed;
         Weight = weight;
         MainColor = mainColor;
-        DopColor = dopColor;
+         DopColor = dopColor;
     }
 
-    public void SetPosition(int x, int y, int width, int height)
-    {
-        _startPosX = x;
-        _startPosY = y;
-        _pictureWidth = width;
-        _pictureHeight = height;
-    }
- 
-    public void MoveTransport(Direction direction)
+    //
+
+   @Override
+public void MoveTransport(Direction direction)
     {
         float step = MaxSpeed * 100 / Weight;
         switch (direction)
@@ -61,7 +55,7 @@ public class MainLabaClass {
             }
             case Right:
             {
-                if (_startPosX + step + planeWidth < _pictureWidth)
+                if (_startPosX + step + boatWidth < _pictureWidth)
                 {
                     _startPosX += step;
                 }
@@ -77,7 +71,7 @@ public class MainLabaClass {
             }
             case Down:
             {
-                if (_startPosY + step + planeHeight < _pictureHeight)
+                if (_startPosY + step + boatHeight < _pictureHeight)
                 {
                     _startPosY += step;
                 }
@@ -85,25 +79,32 @@ public class MainLabaClass {
             }
         }
     }
-    public void DrawBoat(Graphics g)
-    {
-   
-        g.setColor(MainColor);
-        g.fillRect(_startPosX+40, _startPosY+40, planeWidth-30, planeHeight-60);
 
+
+     public void DrawBoat(Graphics g)
+    {
+        //
+        g.setColor(MainColor);
+        g.fillRect(_startPosX+40, _startPosY+40, 120, 40);
         g.setColor(Color.BLACK);
+
+
 
         g.drawLine(_startPosX + 160, _startPosY + 40, _startPosX + 100, _startPosY + 20);
         g.drawLine(_startPosX + 100, _startPosY + 20, _startPosX + 100, _startPosY + 40);
         g.drawArc(_startPosX-40, _startPosY + 40, 90, 85, 15, 75);
         g.setColor(Color.GRAY);
-        g.fillRect(_startPosX+5, _startPosY+40, planeWidth-135, planeHeight-85);
-
-
-
-
+        g.fillRect(_startPosX+5, _startPosY+40, 15, 15);
         g.setColor(DopColor);
-        g.fillRect(_startPosX+35, _startPosY+30, planeWidth-130, planeHeight-85);
+        g.fillRect(_startPosX+35, _startPosY+30, 20, 15);
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        g2.setStroke(new BasicStroke(6.0f));  // толщина равна 10
+        g2.drawLine(_startPosX + 90,_startPosY + 30, _startPosX + 55,_startPosY + 100);
+
 
     }
+
+
 }
